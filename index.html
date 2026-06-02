@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antojitos Mexicanos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>¡Antojitos Mexicanos!</h1>
+        <p>El verdadero sabor de la tradición</p>
+        <!-- SECCIÓN DE HORARIO AÑADIDA -->
+        <p style="margin-top: 10px; font-size: 0.95rem; background-color: rgba(255, 255, 255, 0.15); display: inline-block; padding: 5px 15px; border-radius: 20px;">
+            🕒 Sábado a Domingo de 9:00 am a 4:00 pm
+        </p>
+    </header>
+
+    <main class="container">
+        <section class="menu-section">
+            <h2>Nuestro Menú</h2>
+            <p style="text-align: center; color: #718096; margin-bottom: 20px;">Toca un platillo para personalizarlo y agregarlo a tu pedido</p>
+
+            <div class="menu-grid">
+                <div class="menu-card" onclick="abrirModalProducto('quesadilla')">
+                    <img src="img/quesadilla.jpg" alt="Quesadillas Fritas y al Comal" class="card-img">
+                    <div class="card-body">
+                        <h3>Quesadillas</h3>
+                        <p class="card-desc">Deliciosas quesadillas fritas o al comal con el guisado de tu elección.</p>
+                        <span class="price-tag">$30 c/u</span>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="abrirModalProducto('gordita')">
+                    <img src="img/gordita.jpg" alt="Gorditas de Chicharrón" class="card-img">
+                    <div class="card-body">
+                        <h3>Gorditas</h3>
+                        <p class="card-desc">Gorditas tradicionales de chicharrón prensado crujiente y sabroso.</p>
+                        <span class="price-tag">$30 c/u</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal-quesadilla" class="modal-overlay">
+        <div class="modal-content text-left" style="max-width: 450px;">
+            <div class="modal-header">
+                <h2>Configurar Quesadilla</h2>
+                <button class="btn-close" onclick="cerrarModalProducto('quesadilla')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="guisado-quesadilla">Elige el guisado:</label>
+                    <select id="guisado-quesadilla">
+                        <option value="Queso">Queso</option>
+                        <option value="Chicharrón">Chicharrón</option>
+                        <option value="Pollo">Pollo</option>
+                        <option value="Tinga">Tinga</option>
+                        <option value="Picadillo">Picadillo</option>
+                    </select>
+                </div>
+
+                <div class="form-group check-group">
+                    <label class="switch-container">
+                        <input type="checkbox" id="check-frita">
+                        <span class="custom-checkbox"></span>
+                        Frita (Si no se marca, es al comal)
+                    </label>
+                </div>
+
+                <div class="form-group check-group">
+                    <label class="switch-container">
+                        <input type="checkbox" id="queso-extra-q">
+                        <span class="custom-checkbox"></span>
+                        ¿Con Quesillo? (+$5)
+                    </label>
+                </div>
+
+                <div class="ingredients-box">
+                    <p style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <strong>Ingredientes incluidos:</strong>
+                        <button type="button" class="btn-personalizar" onclick="abrirModalAparte('quesadilla')">Personalizar Aparte ⚙️</button>
+                    </p>
+                    <div class="ingredients-grid">
+                        <label class="switch-container"><input type="checkbox" id="q-lechuga" checked><span class="custom-checkbox"></span> Lechuga</label>
+                        <label class="switch-container"><input type="checkbox" id="q-queso" checked><span class="custom-checkbox"></span> Queso</label>
+                        <label class="switch-container"><input type="checkbox" id="q-crema" checked><span class="custom-checkbox"></span> Crema</label>
+                        <label class="switch-container"><input type="checkbox" id="q-salsa" checked><span class="custom-checkbox"></span> Salsa</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-add" style="width: 100%; margin: 0;" onclick="agregarAlCarritoYSalir('quesadilla')">Agregar al Pedido 🛒</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-gordita" class="modal-overlay">
+        <div class="modal-content text-left" style="max-width: 450px;">
+            <div class="modal-header">
+                <h2>Configurar Gordita</h2>
+                <button class="btn-close" onclick="cerrarModalProducto('gordita')">✕</button>
+            </div>
+            <div class="modal-body">
+                <p class="guisado-g" style="margin-bottom: 15px;">Guisado tradicional: <strong>Chicharrón</strong></p>
+
+                <div class="form-group check-group">
+                    <label class="switch-container">
+                        <input type="checkbox" id="queso-extra-g">
+                        <span class="custom-checkbox"></span>
+                        ¿Con Quesillo? (+$5)
+                    </label>
+                </div>
+
+                <div class="ingredients-box">
+                    <p style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <strong>Ingredientes incluidos:</strong>
+                        <button type="button" class="btn-personalizar" onclick="abrirModalAparte('gordita')">Personalizar Aparte ⚙️</button>
+                    </p>
+                    <div class="ingredients-grid">
+                        <label class="switch-container"><input type="checkbox" id="g-cebolla" checked><span class="custom-checkbox"></span> Cebolla</label>
+                        <label class="switch-container"><input type="checkbox" id="g-cilantro" checked><span class="custom-checkbox"></span> Cilantro</label>
+                        <label class="switch-container"><input type="checkbox" id="g-salsa" checked><span class="custom-checkbox"></span> Salsa</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-add" style="width: 100%; margin: 0;" onclick="agregarAlCarritoYSalir('gordita')">Agregar al Pedido 🛒</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="btn-flotante-carrito" class="floating-cart-bar" onclick="abrirModalCarrito()">
+        <div class="floating-info">
+            <span id="badge-cantidad" class="cart-badge">0</span>
+            <span>Ver mi pedido</span>
+        </div>
+        <span id="total-flotante">$0.00</span>
+    </div>
+
+    <div id="modal-aparte" class="modal-overlay" style="z-index: 1100;">
+        <div class="modal-content text-left" style="max-width: 400px; margin-top: 10%;">
+            <div class="modal-header">
+                <h2>¿Qué enviar aparte?</h2>
+                <button class="btn-close" onclick="cerrarModalAparte()">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: #4a5568; margin-bottom: 15px;">Selecciona los ingredientes que deseas en recipientes separados:</p>
+                
+                <div id="opciones-aparte-quesadilla" style="display:none;">
+                    <label class="switch-container margin-top" style="border-bottom: 1px dashed #cbd5e0; padding-bottom: 8px; margin-bottom: 10px; font-weight: bold; color: #e53e3e;">
+                        <input type="checkbox" id="ap-q-todo" onchange="seleccionarTodoAparte('quesadilla')">
+                        <span class="custom-checkbox"></span> ¡Todo Aparte! 📦
+                    </label>
+                    <label class="switch-container margin-top"><input type="checkbox" id="ap-q-lechuga"><span class="custom-checkbox"></span> Lechuga Aparte</label>
+                    <label class="switch-container margin-top"><input type="checkbox" id="ap-q-queso"><span class="custom-checkbox"></span> Queso Aparte</label>
+                    <label class="switch-container margin-top"><input type="checkbox" id="ap-q-crema"><span class="custom-checkbox"></span> Crema Aparte</label>
+                    <label class="switch-container margin-top"><input type="checkbox" id="ap-q-salsa"><span class="custom-checkbox"></span> Salsa Aparte</label>
+                </div>
+
+                <div id="opciones-aparte-gordita" style="display:none;">
+                    <label class="switch-container margin-top" style="border-bottom: 1px dashed #cbd5e0; padding-bottom: 8px; margin-bottom: 10px; font-weight: bold; color: #e53e3e;">
+                        <input type="checkbox" id="ap-g-todo" onchange="seleccionarTodoAparte('gordita')">
+                        <span class="custom-checkbox"></span> ¡Todo Aparte! 📦
+                    </label>
+                    <label class="switch-container margin-top"><input type="checkbox" id="ap-g-cebolla"><span class="custom-checkbox"></span> Cebolla Aparte</label>
+                    <label class="switch-container margin-top"><input type="checkbox" id="ap-g-cilantro"><span class="custom-checkbox"></span> Cilantro Aparte</label>
+                    <label class="switch-container margin-top"><input type="checkbox" id="ap-g-salsa"><span class="custom-checkbox"></span> Salsa Aparte</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-add" style="width:100%; margin:0;" onclick="cerrarModalAparte()">Aceptar y Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-carrito" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tu Pedido</h2>
+                <button class="btn-close" onclick="cerrarModalCarrito()">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <h3 class="margin-top">Productos</h3>
+                <div id="carrito-vacio" class="text-center">El carrito está vacío. ¡Agrega tus antojitos!</div>
+                <ul id="lista-carrito"></ul>
+
+                <div class="totales">
+                    <p>Costo de Envío: <span>$10.00</span></p>
+                    <h3>Total a Pagar: <span id="total-precio">$0.00</span></h3>
+                </div>
+
+                <div class="pago-section">
+                    <h3>Método de Pago</h3>
+                    <select id="metodo-pago" onchange="evaluarMetodoPago()">
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="Transferencia">Transferencia</option>
+                    </select>
+
+                    <div id="cambio-contenedor" class="form-group margin-top">
+                        <label for="con-cuanto">¿Con cuánto vas a pagar? <span class="required">*</span></label>
+                        <input type="number" id="con-cuanto" placeholder="Ej. 200">
+                    </div>
+                </div>
+                <div class="cliente-section">
+                    <h3>Datos de Entrega</h3>
+                    <div class="form-group">
+                        <label for="cliente-nombre">Nombre Completo: <span class="required">*</span></label>
+                        <input type="text" id="cliente-nombre" placeholder="Ej. Juan Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label for="cliente-telefono">Número de Celular: <span class="required">*</span></label>
+                        <input type="tel" id="cliente-telefono" placeholder="10 dígitos" inputmode="numeric" pattern="[0-9]{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
+                    </div>
+                    <div class="form-group margin-top">
+                        <label for="cliente-direccion">Dirección Completa y Referencias: <span class="required">*</span></label>
+                        <textarea id="cliente-direccion" rows="2" placeholder="Ej. Calle Juárez #123, Colonia Centro. Portón negro frente a la papelería."></textarea>
+                    </div>
+                    <div class="ubicacion-section">
+                        <h3>Tu Ubicación <span class="required">*</span></h3>
+                        <p style="font-size: 0.85em; color: #4a5568; margin-bottom: 10px;">Elige una opción para que sepamos a dónde ir:</p>
+                        <button class="btn-geo" onclick="obtenerUbicacion()">📍 Compartir GPS en tiempo real</button>
+                        <button class="btn-geo" style="background-color: #2b6cb0; margin-top: 8px;" onclick="marcarUbicacionPorChat()">💬 Enviar ubicación manualmente por WhatsApp</button>
+                        <p id="status-ubicacion" class="status-p">Ubicación no proporcionada.</p>
+                    </div>
+                 </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-whatsapp" onclick="enviarPedidoWhatsApp()">Enviar Pedido por WhatsApp 💬</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-advertencia" class="modal-overlay" style="z-index: 1200;">
+        <div class="modal-content text-left" style="max-width: 380px; margin-top: 15%;">
+            <div class="modal-header" style="border-bottom: none; padding-bottom: 10px;">
+                <h2 style="color: var(--secundario); display: flex; align-items: center; gap: 8px;">
+                    ⚠️ Datos Incompletos
+                </h2>
+                <button class="btn-close" onclick="cerrarModalAdvertencia()">✕</button>
+            </div>
+            <div class="modal-body" style="padding-top: 10px; padding-bottom: 10px;">
+                <p style="color: var(--oscuro); font-size: 1rem; line-height: 1.5;">
+                    Para procesar tu pedido, hace falta que rellenes los siguientes campos obligatorios:
+                </p>
+                <ul id="lista-campos-vacios" style="margin-top: 12px; margin-left: 20px; color: var(--secundario); font-weight: bold; line-height: 1.6;">
+                    </ul>
+            </div>
+            <div class="modal-footer" style="background-color: #fff5f5; border-top: none;">
+                <button class="btn-add" style="background-color: var(--secundario); width: 100%; margin: 0;" onclick="cerrarModalAdvertencia()">
+                    Revisar mi formulario
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
