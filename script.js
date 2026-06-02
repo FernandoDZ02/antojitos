@@ -1,7 +1,12 @@
 // Configuración global del negocio
-const NUMERO_WHATSAPP = "5541051524"; 
+const NUMERO_WHATSAPP = "5524645912"; 
 const COSTO_BASE = 30;
 const COSTO_ENVIO = 10;
+
+// DATOS DE TRANSFERENCIA (Cambia estos valores con tus datos reales)
+const DATOS_BANCO = "BBVA";
+const DATOS_CUENTA = "012180015656056712";
+const DATOS_TITULAR = "Laura Vazquez Bartolo";
 
 let carrito = [];
 let urlUbicacionGps = "";
@@ -102,6 +107,7 @@ function abrirModalAparte(tipo) {
     }
 }
 
+// --- CLIC BOTÓN PERSONALIZAR APARTE ---
 function cerrarModalAparte() {
     document.getElementById('modal-aparte').classList.remove('active');
 }
@@ -353,9 +359,8 @@ function mostrarAlertaBonita(mensaje) {
     document.querySelector('.modal-body').scrollTop = 0;
 }
 
-// --- FUNCIÓN TOTALMENTE REESTRUCTURADA CON EL NUEVO MODAL ---
+// --- ENVIAR PEDIDO REESTRUCTURADO ---
 function enviarPedidoWhatsApp() {
-    // Si no hay productos, mostramos alerta directa en el carrito
     if (carrito.length === 0) {
         mostrarAlertaBonita("Por favor, agrega al menos un antojito a tu carrito.");
         return;
@@ -367,21 +372,17 @@ function enviarPedidoWhatsApp() {
     const metodoPago = document.getElementById('metodo-pago').value;
     const conCuanto = document.getElementById('con-cuanto').value.trim();
 
-    // Array para almacenar qué campos exactos faltan por rellenar
     let camposVacios = [];
 
-    // Validar cada campo de manera independiente
     if (nombre === "") camposVacios.push("Nombre Completo");
     if (telefono === "" || telefono.length < 10) camposVacios.push("Número de Celular (mínimo 10 dígitos)");
     if (direccion === "") camposVacios.push("Dirección Completa y Referencias");
     if (urlUbicacionGps === "") camposVacios.push("Método de Ubicación (GPS o Por Chat)");
 
-    // Calcular costos actuales
     let subtotal = 0;
     carrito.forEach(item => subtotal += (item.precioUnitario * item.cantidad));
     const totalFinal = subtotal + COSTO_ENVIO;
 
-    // Validación condicional: Solo exigir dinero en efectivo si el método seleccionado es Efectivo
     if (metodoPago === 'Efectivo') {
         if (conCuanto === "") {
             camposVacios.push("¿Con cuánto vas a pagar?");
@@ -390,13 +391,11 @@ function enviarPedidoWhatsApp() {
         }
     }
 
-    // SI HAY CAMPOS VACÍOS: Se detiene el proceso y se abre el nuevo modal interactivo
     if (camposVacios.length > 0) {
         abrirModalAdvertencia(camposVacios);
         return; 
     }
 
-    // SI TODO ESTÁ PERFECTO: Genera la cadena de WhatsApp y envía
     let mensaje = `*NUEVO PEDIDO RECIBIDO* 📝\n`;
     mensaje += `--------------------------\n`;
     mensaje += `👤 *Cliente:* ${nombre}\n`;
@@ -420,6 +419,15 @@ function enviarPedidoWhatsApp() {
     
     if (metodoPago === 'Efectivo') {
         mensaje += `*Paga con:* $${conCuanto} \n*Cambio:* $${conCuanto - totalFinal}\n`;
+    }
+
+    // SI SELECCIONAN TRANSFERENCIA: Se inyectan los datos bancarios al final de la cadena
+    if (metodoPago === 'Transferencia') {
+        mensaje += `\n*POR FAVOR REALIZA TU PAGO AQUÍ:* 🏦\n`;
+        mensaje += `🔹 *Banco:* ${DATOS_BANCO}\n`;
+        mensaje += `🔹 *Cuenta/CLABE:* ${DATOS_CUENTA}\n`;
+        mensaje += `🔹 *Nombre:* ${DATOS_TITULAR}\n`;
+        mensaje += `⚠️ _Favor de enviar captura del comprobante por este medio._\n`;
     }
 
     const linkWhatsApp = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
